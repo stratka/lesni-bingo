@@ -42,6 +42,7 @@ h1{font-family:"Fraunces",Georgia,serif;font-weight:900;font-size:30px;line-heig
 @keyframes kyv{from{transform:rotate(-1.8deg)}to{transform:rotate(1.8deg)}}
 .tl{appearance:none;font:inherit;font-weight:800;cursor:pointer;border:2px solid var(--zelena);background:var(--zelena);color:#fff;border-radius:14px;padding:13px 16px;font-size:16px;width:100%}
 .tl:active{transform:translateY(1px)}
+.tl:disabled{opacity:.6;cursor:default}
 .tl.sek{background:transparent;color:var(--zelena)}
 .tl.zlaty{background:var(--zlata);border-color:var(--zlata);color:#3b2a05}
 .tl.aktivni{background:var(--zlata);border-color:var(--zlata);color:#3b2a05}
@@ -95,6 +96,7 @@ input[type=file]{display:none}
     <button class="tl sek" id="nova" type="button">🎲 Nová hra</button>
     <button class="tl sek" id="vymena" type="button">🔄 Vyměnit obrázek</button>
   </div>
+  <button class="tl sek" id="aktualizovat" type="button" style="margin-top:8px">⟳ Aktualizovat</button>
 
   <details class="panel" id="pripojit">
     <summary>Přidat se ke hře</summary>
@@ -141,6 +143,7 @@ var RADY=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
 
 function $(id){return document.getElementById(id)}
 function ch(i){return i.toString(36)}
+function nahodne(n){var s="";for(var i=0;i<n;i++)s+=ch(Math.floor(Math.random()*36));return s}
 function obdobi(){var m=new Date().getMonth()+1;return m>=3&&m<=5?"j":m>=6&&m<=8?"l":m>=9&&m<=11?"p":"z"}
 function zamichej(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
 function kodNaIndexy(k){return k.split("").map(function(c){return parseInt(c,36)})}
@@ -172,9 +175,9 @@ function hlas(text,chyba){
 function schovejHlasku(){$("hlaska").className="hlaska"}
 
 /* ---------- hra ---------- */
-function novaHraZKodu(kod){
+function novaHraZKodu(kod,skupina){
   var poradi=zamichej(kodNaIndexy(kod));
-  var h={kod:kod,poradi:poradi,hotovo:{},bingo:false};
+  var h={kod:kod,skupina:skupina||null,poradi:poradi,hotovo:{},bingo:false};
   ulozHru(h);
   return h;
 }
@@ -184,48 +187,57 @@ function novyKod(){
   VECI.forEach(function(v,i){if(v[2].indexOf(o)>=0)pool.push(i)});
   return zamichej(pool).slice(0,9).map(ch).join("");
 }
-function prenes(h,kod2,stary,novy){
-  var n={kod:kod2,poradi:h.poradi.map(function(i){return i===stary?novy:i}),hotovo:{},bingo:h.bingo};
+/* mapa {stará věc: nová věc}; výměna drží pozici v kódu, takže stačí porovnat znak po znaku */
+function prenes(h,kod2,mapa,skupina){
+  var n={kod:kod2,skupina:skupina||h.skupina||null,poradi:h.poradi.map(function(i){return i in mapa?mapa[i]:i}),hotovo:{},bingo:h.bingo};
   h.poradi.forEach(function(i){
-    if(i===stary)return;
-    if(h.hotovo[i])n.hotovo[i]=1;
     var f=getFoto(h.kod,i);
     mazej(fotoKlic(h.kod,i));
+    if(i in mapa)return;
+    if(h.hotovo[i])n.hotovo[i]=1;
     if(f)pis(fotoKlic(kod2,i),f);
   });
-  mazej(fotoKlic(h.kod,stary));
   mazej("lb:"+h.kod);
   ulozHru(n);
   return n;
 }
-function rozdilJedna(a,b){
-  var A=kodNaIndexy(a),B=kodNaIndexy(b);
-  var jenA=A.filter(function(x){return B.indexOf(x)<0});
-  var jenB=B.filter(function(x){return A.indexOf(x)<0});
-  return jenA.length===1&&jenB.length===1?[jenA[0],jenB[0]]:null;
+function zmeny(a,b){
+  var A=kodNaIndexy(a),B=kodNaIndexy(b),mapa={},pocet=0;
+  for(var i=0;i<A.length;i++){
+    if(A[i]===B[i])continue;
+    if(B.indexOf(A[i])>=0||A.indexOf(B[i])>=0)return null;
+    mapa[A[i]]=B[i];pocet++;
+  }
+  return pocet?mapa:null;
 }
+function hashHry(){return "#hra-"+S.kod+(S.skupina?"."+S.skupina:"")}
 function nastavAktualni(){
   pis("lb:aktualni",S.kod);
-  try{history.replaceState(null,"","#hra-"+S.kod)}catch(e){}
+  try{history.replaceState(null,"",hashHry())}catch(e){}
 }
-function pripojSe(kod){
+function pripojSe(kod,skupina){
   kod=(kod||"").toLowerCase();
   if(!platnyKod(kod)){
     hlas("Tenhle kód hry nejde použít. Má mít 9 znaků a žádná věc se nesmí opakovat.",true);
     return false;
   }
-  if(S&&S.kod===kod){render();return true}
+  if(S&&S.kod===kod){
+    if(skupina&&S.skupina!==skupina){S.skupina=skupina;ulozHru(S);nastavAktualni()}
+    render();return true;
+  }
   var ulozena=nactiHru(kod);
   var zprava=null;
-  if(ulozena){S=ulozena}
-  else{
-    var rozdil=S?rozdilJedna(S.kod,kod):null;
-    if(rozdil){
-      var stara=VECI[rozdil[0]],nova=VECI[rozdil[1]];
-      S=prenes(S,kod,rozdil[0],rozdil[1]);
-      zprava="Ve hře se vyměnila jedna věc: "+stara[1]+" → "+nova[1]+". Zbytek ti zůstal.";
+  if(ulozena){
+    S=ulozena;
+    if(skupina){S.skupina=skupina;ulozHru(S)}
+  }else{
+    var mapa=S?zmeny(S.kod,kod):null;
+    if(mapa){
+      var popis=Object.keys(mapa).map(function(k){return VECI[k][1]+" → "+VECI[mapa[k]][1]}).join(", ");
+      zprava=(Object.keys(mapa).length===1?"Ve hře se vyměnila jedna věc: ":"Ve hře se vyměnily věci: ")+popis+". Zbytek ti zůstal.";
+      S=prenes(S,kod,mapa,skupina);
     }else{
-      S=novaHraZKodu(kod);
+      S=novaHraZKodu(kod,skupina);
       zprava="Připojeno ke hře "+kod+". Máš stejné věci jako kamarádi, jen jinak rozházené.";
     }
   }
@@ -236,7 +248,7 @@ function pripojSe(kod){
   return true;
 }
 function novaHra(){
-  S=novaHraZKodu(novyKod());
+  S=novaHraZKodu(novyKod(),nahodne(10));
   rezimVymeny=false;
   nastavAktualni();
   render();
@@ -405,11 +417,51 @@ function vymenit(stary,novy){
   zavriOkno();
   var pozice=S.kod.indexOf(ch(stary));
   var kod2=S.kod.slice(0,pozice)+ch(novy)+S.kod.slice(pozice+1);
-  S=prenes(S,kod2,stary,novy);
+  var mapa={};mapa[stary]=novy;
+  var mela=!!S.skupina;
+  S=prenes(S,kod2,mapa,S.skupina||nahodne(10));
   rezimVymeny=false;
   nastavAktualni();
   render();
-  hlas("Vyměněno! Nový kód hry je "+kod2+" – pošli ho kamarádům.");
+  oznamZmenu();
+  hlas(mela?"Vyměněno! Kamarádi si změnu načtou tlačítkem Aktualizovat."
+           :"Vyměněno! Pošli kamarádům nový odkaz přes Sdílet, příště už jim bude stačit Aktualizovat.");
+}
+
+/* ---------- aktualizace mezi hráči (ntfy.sh drží zprávy 12 hodin) ---------- */
+var NTFY="https://ntfy.sh/lesni-bingo-";
+var aktualizuji=false;
+function oznamZmenu(){
+  fetch(NTFY+S.skupina,{method:"POST",body:S.kod}).catch(function(){
+    hlas("Výměnu se nepodařilo poslat ostatním, nejde internet. Pošli jim odkaz přes Sdílet.",true);
+  });
+}
+function aktualizuj(tiche){
+  if(!S.skupina){
+    if(!tiche)hlas("Tahle hra ještě nemá spojení s ostatními. Ať ti kamarád pošle nový odkaz přes Sdílet.",true);
+    return;
+  }
+  if(aktualizuji)return;
+  aktualizuji=true;
+  var b=$("aktualizovat"),skupina=S.skupina;
+  if(!tiche){b.disabled=true;b.textContent="⏳ Zjišťuji…"}
+  fetch(NTFY+skupina+"/json?poll=1&since=all",{cache:"no-store"}).then(function(r){
+    if(!r.ok)throw new Error(r.status);
+    return r.text();
+  }).then(function(t){
+    var posledni=null;
+    t.split("\n").forEach(function(radek){
+      try{var z=JSON.parse(radek);var k=(z.message||"").trim().toLowerCase();if(z.event==="message"&&platnyKod(k))posledni=k}catch(e){}
+    });
+    if(S.skupina!==skupina)return;
+    if(posledni&&posledni!==S.kod&&zmeny(S.kod,posledni))pripojSe(posledni,skupina);
+    else if(!tiche)hlas("Máš aktuální verzi hry.");
+  }).catch(function(){
+    if(!tiche)hlas("Aktualizace se nepovedla. Zkontroluj internet a zkus to znovu.",true);
+  }).then(function(){
+    aktualizuji=false;
+    b.disabled=false;b.textContent="⟳ Aktualizovat";
+  });
 }
 
 /* ---------- bingo ---------- */
@@ -463,7 +515,10 @@ function konfety(){
 }
 
 /* ---------- sdílení ---------- */
-function odkaz(){return location.href.split("#")[0]+"#hra-"+S.kod}
+function odkaz(){
+  if(!S.skupina){S.skupina=nahodne(10);ulozHru(S);nastavAktualni()}
+  return location.href.split("#")[0]+hashHry();
+}
 function kopiruj(text){
   if(navigator.clipboard&&navigator.clipboard.writeText){
     return navigator.clipboard.writeText(text);
@@ -499,6 +554,8 @@ function sdilet(){
 
 /* ---------- ovládání ---------- */
 $("sdilet").addEventListener("click",sdilet);
+$("aktualizovat").addEventListener("click",function(){aktualizuj(false)});
+document.addEventListener("visibilitychange",function(){if(document.visibilityState==="visible")aktualizuj(true)});
 $("vymena").addEventListener("click",function(){
   rezimVymeny=!rezimVymeny;
   render();
@@ -515,29 +572,33 @@ $("nova").addEventListener("click",function(){
 });
 function pripojZPole(){
   var v=$("vstup").value.trim().toLowerCase();
-  var m=v.match(/hra-([0-9a-z]{9})/)||v.match(/(?:^|[^0-9a-z])([0-9a-z]{9})(?:$|[^0-9a-z])/);
+  var m=v.match(/hra-([0-9a-z]{9})(?:\.([0-9a-z]{4,20}))?/)||v.match(/(?:^|[^0-9a-z])([0-9a-z]{9})(?:$|[^0-9a-z])/);
   if(!m){hlas("Zadej 9znakový kód hry.",true);return}
-  if(pripojSe(m[1])){$("vstup").value="";$("pripojit").open=false}
+  if(pripojSe(m[1],m[2])){$("vstup").value="";$("pripojit").open=false}
 }
 $("pripojBtn").addEventListener("click",pripojZPole);
 $("vstup").addEventListener("keydown",function(e){if(e.key==="Enter")pripojZPole()});
 $("modal").addEventListener("click",function(e){if(e.target===this)zavriOkno()});
 document.addEventListener("keydown",function(e){if(e.key==="Escape")zavriOkno()});
 
-function kodZUrl(){var m=location.hash.match(/^#hra-([0-9a-zA-Z]+)$/);return m?m[1].toLowerCase():null}
-window.addEventListener("hashchange",function(){var k=kodZUrl();if(k)pripojSe(k)});
+function kodZUrl(){
+  var m=location.hash.match(/^#hra-([0-9a-zA-Z]+)(?:\.([0-9a-zA-Z]{4,20}))?$/);
+  return m?{kod:m[1].toLowerCase(),skupina:m[2]?m[2].toLowerCase():null}:null;
+}
+window.addEventListener("hashchange",function(){var k=kodZUrl();if(k)pripojSe(k.kod,k.skupina)});
 
 /* ---------- start ---------- */
 (function start(){
   var aktualni=cti("lb:aktualni");
   if(aktualni&&platnyKod(aktualni))S=nactiHru(aktualni);
   var k=kodZUrl();
-  var ok=k?pripojSe(k):false;
+  var ok=k?pripojSe(k.kod,k.skupina):false;
   if(!ok){
-    if(!S)S=novaHraZKodu(novyKod());
+    if(!S)S=novaHraZKodu(novyKod(),nahodne(10));
     nastavAktualni();
     render();
   }
+  aktualizuj(true);
 })();
 })();
 </script>
