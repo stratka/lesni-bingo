@@ -17,6 +17,16 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:"Nunito",system
 .wrap{max-width:520px;margin:0 auto;padding:16px 16px calc(32px + env(safe-area-inset-bottom))}
 h1{font-family:"Fraunces",Georgia,serif;font-weight:900;font-size:30px;line-height:1.1;margin:4px 0 2px;color:var(--zelena);letter-spacing:-.01em}
 .podtitul{margin:0 0 14px;color:var(--tlumene)}
+.hlava{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.hlava h1{flex:1;min-width:0}
+@media (max-width:420px){.hlava h1{font-size:24px}.dalsi{padding:7px 8px;font-size:13px}}
+.dalsi{appearance:none;font:inherit;font-weight:800;cursor:pointer;border:2px solid var(--zelena);background:var(--karta);color:var(--zelena);border-radius:12px;padding:8px 10px;font-size:14px;white-space:nowrap}
+.hry{display:flex;flex-direction:column;gap:8px}
+.hry button{appearance:none;font:inherit;cursor:pointer;border:2px solid var(--linka);background:#fff;color:var(--text);border-radius:16px;padding:12px;display:flex;align-items:center;gap:12px;text-align:left}
+.hry button .em{font-size:36px;line-height:1}
+.hry button b{display:block;font-size:17px}
+.hry button small{color:var(--tlumene)}
+.hry button.ted{border-color:var(--zelena);background:var(--zelena-svetla)}
 .stav{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--karta);border:2px solid var(--linka);border-radius:16px;padding:10px 14px;margin-bottom:12px}
 .stav small{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--tlumene);font-weight:700}
 .kod{font-family:ui-monospace,Consolas,monospace;font-weight:800;font-size:20px;letter-spacing:.14em;color:var(--zelena)}
@@ -28,6 +38,8 @@ h1{font-family:"Fraunces",Georgia,serif;font-weight:900;font-size:30px;line-heig
 .pole{appearance:none;font:inherit;color:inherit;cursor:pointer;position:relative;overflow:hidden;aspect-ratio:1;border-radius:20px;border:2px solid var(--linka);background:var(--karta);box-shadow:0 3px 0 var(--linka);padding:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center;background-size:cover;background-position:center}
 .pole:active{transform:translateY(2px);box-shadow:0 1px 0 var(--linka)}
 .pole .em{font-size:clamp(34px,12vw,54px);line-height:1}
+.vyber button .em img.list{width:1.5em!important;height:1.5em!important}
+.pole .em img.list,.okno .velka img.list{width:1.6em!important;height:1.6em!important}
 .pole .jm{font-weight:800;font-size:clamp(12px,3.6vw,15px);line-height:1.15;padding:0 2px}
 .pole.hotovo{background-color:var(--zelena-svetla);border-color:var(--zelena);box-shadow:0 3px 0 var(--zelena)}
 .pole.hotovo::after{content:"✓";position:absolute;top:6px;right:6px;width:24px;height:24px;border-radius:50%;background:var(--zelena);color:#fff;font-weight:800;font-size:15px;line-height:24px;text-align:center;z-index:2}
@@ -63,11 +75,16 @@ h1{font-family:"Fraunces",Georgia,serif;font-weight:900;font-size:30px;line-heig
 .okno{background:var(--karta);border-radius:22px;padding:20px;width:100%;max-width:420px;max-height:88vh;overflow:auto;display:flex;flex-direction:column;gap:10px}
 .okno h2{font-family:"Fraunces",Georgia,serif;font-weight:900;font-size:24px;margin:0;color:var(--zelena);text-align:center}
 .okno p{margin:0;text-align:center}
+.okno h2.velke{font-size:30px;color:#b9831b;animation:puls .6s ease-in-out infinite alternate}
+@keyframes puls{from{transform:scale(1)}to{transform:scale(1.08)}}
 .okno .velka{width:100%;aspect-ratio:1;border-radius:16px;background-size:cover;background-position:center;background-color:var(--zelena-svetla);display:flex;align-items:center;justify-content:center;font-size:90px}
 .trojice{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .trojice div{aspect-ratio:1;border-radius:14px;border:2px solid var(--zlata);background:var(--zlata-svetla) center/cover;display:flex;align-items:flex-end;justify-content:center;font-size:40px;overflow:hidden}
 .trojice div.bez{align-items:center}
 .trojice div span{display:block;width:100%;background:rgba(20,28,18,.74);color:#fff;font-size:12px;font-weight:800;padding:3px 2px;text-align:center}
+.trojice div span span{display:inline;background:none;padding:0;width:auto;font-size:inherit}
+.trojice div span.ik{display:block;width:auto;background:none;padding:0;font-size:40px;line-height:1}
+.trojice div span.ik img.list{width:1.4em!important;height:1.4em!important}
 .vyber{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .vyber button{appearance:none;font:inherit;font-weight:700;border:2px solid var(--linka);background:#fff;color:var(--text);border-radius:12px;padding:8px;cursor:pointer;display:flex;align-items:center;gap:8px;text-align:left}
 .vyber button .em{font-size:26px}
@@ -79,8 +96,11 @@ input[type=file]{display:none}
 </head>
 <body>
 <div class="wrap">
-  <h1>🌲 Lesní bingo</h1>
-  <p class="podtitul">Najdi na procházce 3 věci v řadě.</p>
+  <div class="hlava">
+    <h1 id="nadpis">🌲 Lesní bingo</h1>
+    <button class="dalsi" id="dalsiHry" type="button">🎮 Další hry</button>
+  </div>
+  <p class="podtitul" id="podtitul">Najdi na procházce 3 věci v řadě.</p>
 
   <div class="stav">
     <div><small>Kód hry</small><div class="kod" id="kod">…</div></div>
@@ -101,7 +121,7 @@ input[type=file]{display:none}
   <details class="panel" id="pripojit">
     <summary>Přidat se ke hře</summary>
     <div class="telo">
-      <p style="margin:0 0 8px;color:var(--tlumene)">Zadej 9znakový kód od kamaráda.</p>
+      <p style="margin:0 0 8px;color:var(--tlumene)">Zadej kód hry od kamaráda.</p>
       <div class="vstup">
         <input id="vstup" type="text" inputmode="latin" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="80" placeholder="např. 1f4c9a0b3" aria-label="Kód hry">
         <button class="tl" id="pripojBtn" type="button">Připojit</button>
@@ -134,11 +154,104 @@ var VECI=[
 ["🍄","Houba","lp"],["🐿️","Veverka",VSE],["🐞","Beruška","jlp"],["🐜","Mraveniště",VSE],["🦋","Motýl","jl"],["🐌","Šnek","jlp"],
 ["🕸️","Pavučina","jlp"],["🪵","Pařez",VSE],["🌰","Žalud","pz"],["🍂","Suchý list",VSE],["🌿","Kapradí","jlp"],["🪨","Velký kámen",VSE],
 ["💧","Potůček",VSE],["🐸","Žába","jl"],["🦌","Srnka / jelen",VSE],["🪶","Pírko",VSE],["🌼","Kvetoucí kytka","jl"],["🫐","Borůvky","l"],
-["🍁","Javorový list","p"],["🌲","Šiška",VSE],["🪺","Ptačí hnízdo",VSE],["🐛","Housenka","jl"],["🪱","Žížala","jlp"],["🌱","Mech",VSE],
+["🍁","Javorový list","p"],["siska","Šiška",VSE],["🪺","Ptačí hnízdo",VSE],["🐛","Housenka","jl"],["🪱","Žížala","jlp"],["🌱","Mech",VSE],
 ["🪓","Pokácený strom",VSE],["🚩","Turistická značka",VSE],["🪑","Lavička",VSE],["🧭","Rozcestník",VSE],["🐝","Včela / čmelák","jl"],
-["🦉","Dutina ve stromě",VSE],["🐾","Stopy v blátě",VSE],["🥢","Klacek ve tvaru Y",VSE],["🐦","Ptáček",VSE],["🌳","Obrovský strom",VSE],
+["🦉","Dutina ve stromě",VSE],["🐾","Stopy v blátě",VSE],["klacek","Klacek ve tvaru Y",VSE],["🐦","Ptáček",VSE],["🌳","Obrovský strom",VSE],
 ["🔥","Ohniště",VSE],["🍓","Lesní jahody","l"]
 ];
+/* věci bez vhodného emoji mají vlastní obrázek */
+var OBRAZKY={
+  siska:"data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M32 6V1" stroke="#4e2d10" stroke-width="3"/><path d="M32 5C23 5 16 13 16 26c0 14 7 27 16 34 9-7 16-20 16-34C48 13 41 5 32 5z" fill="#94592a" stroke="#4e2d10" stroke-width="2.5"/><g stroke="#4e2d10" stroke-width="2.5"><path d="M21 14q5.5 6 11 0q5.5 6 11 0"/><path d="M17 22q7.5 7 15 0q7.5 7 15 0"/><path d="M17 31q7.5 7 15 0q7.5 7 15 0"/><path d="M19 40q6.5 7 13 0q6.5 7 13 0"/><path d="M24 49q4 5 8 0q4 5 8 0"/></g><g stroke="#c58a4f" stroke-width="1.6"><path d="M24 18l2 1"/><path d="M38 18l2 1"/><path d="M22 27l3 1"/><path d="M38 27l3 1"/><path d="M23 36l3 1"/><path d="M38 36l3 1"/></g></svg>'),
+  klacek:"data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke-linecap="round" stroke-linejoin="round"><g stroke="#5b3818" stroke-width="10"><path d="M31 60 32 37 14 7"/><path d="M32 38 51 9"/><path d="M22 21 15 19"/></g><g stroke="#a06a36" stroke-width="6"><path d="M31 60 32 37 14 7"/><path d="M32 38 51 9"/><path d="M22 21 15 19"/></g><g stroke="#6aa84f" stroke-width="5"><path d="M51 9 57 6"/></g></svg>')
+};
+/* ---------- listy stromů (kreslené) ---------- */
+function cislo(x){return Math.round(x*10)/10}
+function kopie(o,zmena){var n={},k;for(k in o)n[k]=o[k];for(k in zmena)n[k]=zmena[k];return n}
+/* obrys listu: w(t) je polovina šířky jako podíl délky, od řapíku (t=0) ke špičce (t=1) */
+function obrys(o){
+  var n=72,P=[],L=[],x0=o.x0||0,y0=o.y0||0;
+  for(var i=0;i<=n;i++){
+    var t=i/n,w=Math.max(0,o.w(t)*o.d);
+    if(o.zuby){var z=(t*o.zuby)%1,v=o.zubV*Math.min(1,w/3);w=Math.max(0,w+v*(z<0.75?z/0.75:(1-z)/0.25)-v)}
+    var y=y0-o.d*t;
+    P.push(cislo(x0+w)+" "+cislo(y));L.unshift(cislo(x0-w)+" "+cislo(y));
+  }
+  var s="M"+x0+" "+cislo(y0-(o.zarez||0))+"L"+P.join("L");
+  if(o.spicka)s+="L"+x0+" "+cislo(y0-o.d+o.spicka);
+  return s+"L"+L.join("L")+"Z";
+}
+function zilky(o){
+  var x0=o.x0||0,y0=o.y0||0,s="M"+x0+" "+y0+"L"+x0+" "+cislo(y0-o.d*0.92);
+  for(var k=1;k<=(o.zilky||0);k++){
+    var t=k/(o.zilky+1)*0.92,y=y0-o.d*t,w=o.w(t)*o.d*0.78;
+    s+="M"+x0+" "+cislo(y)+"L"+cislo(x0+w)+" "+cislo(y-o.d*0.08)+"M"+x0+" "+cislo(y)+"L"+cislo(x0-w)+" "+cislo(y-o.d*0.08);
+  }
+  return s;
+}
+var BARVA="#6fae4f",LINKA="#2f5d23";
+function kresliList(o){return '<path d="'+obrys(o)+'" fill="'+BARVA+'" stroke="'+LINKA+'" stroke-width="1.8"/><path d="'+zilky(o)+'" stroke="'+LINKA+'" stroke-width="1.1" fill="none"/>'}
+function svg(obsah){return "data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" stroke-linecap="round" stroke-linejoin="round">'+obsah+'</svg>')}
+function stopka(y1){return '<path d="M32 62L32 '+y1+'" stroke="'+LINKA+'" stroke-width="2.4" fill="none"/>'}
+function jednoduchy(o){o=kopie(o,{x0:32});return svg(stopka(o.y0)+kresliList(o))}
+function listek(o,x,y,uhel){return '<g transform="translate('+x+' '+y+') rotate('+uhel+')">'+kresliList(kopie(o,{x0:0,y0:0}))+'</g>'}
+function zpereny(o,pary,konec){
+  var s=stopka(konec);
+  pary.forEach(function(p){var q=kopie(o,{d:p[2]});s+=listek(q,32,p[0],-p[1])+listek(q,32,p[0],p[1])});
+  return svg(s+listek(o,32,konec,0));
+}
+function dlanity(o,listky,y){
+  var s=stopka(y);
+  listky.forEach(function(l){s+=listek(kopie(o,{d:l[1]}),32,y,l[0])});
+  return svg(s);
+}
+function javor(){
+  var cx=32,cy=33,b=[],zily="";
+  for(var i=0;i<=200;i++){
+    var th=-Math.PI+2*Math.PI*i/200;
+    var r=26*(0.36+0.64*Math.pow(Math.abs(Math.cos(2.5*th)),1.6))*(0.74+0.26*Math.cos(th));
+    var z=(i/200*44)%1;r-=1.4*(z<0.7?z/0.7:(1-z)/0.3);
+    b.push(cislo(cx+r*Math.sin(th))+" "+cislo(cy-r*Math.cos(th)));
+  }
+  [0,72,-72,144,-144].forEach(function(a){
+    var t=a*Math.PI/180,r=21*(0.74+0.26*Math.cos(t));
+    zily+="M"+cx+" "+cy+"L"+cislo(cx+r*Math.sin(t))+" "+cislo(cy-r*Math.cos(t));
+  });
+  return svg(stopka(cy)+'<path d="M'+b.join("L")+'Z" fill="#d9822b" stroke="#8a4a12" stroke-width="1.8"/><path d="'+zily+'" stroke="#8a4a12" stroke-width="1.1" fill="none"/>');
+}
+function sin(x){return Math.sin(Math.PI*x)}
+var LISTY_OBR={
+  dub:jednoduchy({y0:54,d:48,zilky:4,w:function(t){return 0.3*Math.pow(sin(t),0.6)*(0.6+0.5*t)*(0.42+0.58*Math.abs(Math.sin(Math.PI*4.5*t)))}}),
+  buk:jednoduchy({y0:54,d:48,zilky:7,w:function(t){return 0.3*Math.pow(sin(t),0.75)}}),
+  javor:javor(),
+  lipa:jednoduchy({y0:57,d:50,zarez:9,zilky:4,zuby:24,zubV:1.2,w:function(t){return 0.4*Math.pow(sin(0.08+0.9*t),0.75)*(1-0.4*Math.pow(t,5))}}),
+  briza:jednoduchy({y0:54,d:46,zilky:6,zuby:16,zubV:1.5,w:function(t){return 0.37*(t<0.22?Math.pow(t/0.22,0.6):(1-t)/0.78)}}),
+  habr:jednoduchy({y0:55,d:50,zilky:11,zuby:28,zubV:1.1,w:function(t){return 0.23*Math.pow(sin(Math.pow(t,0.85)),0.9)}}),
+  jasan:zpereny({d:15,zilky:0,zuby:8,zubV:0.6,w:function(t){return 0.2*Math.pow(sin(t),0.8)}},[[50,62,15],[38,58,16],[26,52,15]],15),
+  jirovec:dlanity({d:30,zilky:5,zuby:12,zubV:0.8,w:function(t){return 0.19*Math.pow(sin(Math.pow(t,1.9)),0.8)}},[[-80,16],[-53,23],[-26,29],[0,32],[26,29],[53,23],[80,16]],46),
+  olse:jednoduchy({y0:55,d:46,spicka:5,zilky:6,zuby:14,zubV:0.9,w:function(t){return 0.38*Math.pow(sin(0.06+0.86*t),0.6)*(0.62+0.38*t)}}),
+  jerab:zpereny({d:12,zilky:0,zuby:8,zubV:0.8,w:function(t){return 0.17*Math.pow(sin(t),0.6)}},[[54,78,11],[46,76,12],[38,74,12],[30,70,11],[22,64,10]],14),
+  liska:jednoduchy({y0:56,d:48,zarez:6,zilky:5,zuby:18,zubV:1.8,w:function(t){return 0.42*Math.pow(sin(0.06+0.86*t),0.55)*(1-0.55*Math.pow(t,4))}}),
+  vrba:jednoduchy({y0:58,d:54,zilky:0,zuby:30,zubV:0.4,w:function(t){return 0.085*Math.pow(sin(t),0.9)}}),
+  osika:jednoduchy({y0:52,d:40,zilky:4,zuby:9,zubV:1.6,w:function(t){return 0.46*Math.pow(sin(0.04+0.9*t),0.55)}}),
+  akat:zpereny({d:10,zilky:0,w:function(t){return 0.42*Math.pow(sin(t),0.5)}},[[52,82,10],[41,82,10],[30,80,10]],18)
+};
+var LISTY=[
+["l:dub","Dub",VSE],["l:buk","Buk",VSE],["l:javor","Javor",VSE],["l:lipa","Lípa",VSE],["l:briza","Bříza",VSE],
+["l:habr","Habr",VSE],["l:jasan","Jasan",VSE],["l:jirovec","Kaštan (jírovec)",VSE],["l:olse","Olše",VSE],
+["l:jerab","Jeřáb",VSE],["l:liska","Líska",VSE],["l:vrba","Vrba",VSE],["l:osika","Topol osika",VSE],["l:akat","Akát",VSE]
+];
+LISTY.forEach(function(v){OBRAZKY[v[0]]=LISTY_OBR[v[0].slice(2)]});
+var DRUHY={
+  v:{nazev:"🌲 Lesní bingo",podtitul:"Najdi na procházce 3 věci v řadě."},
+  l:{nazev:"🍃 Stromy bingo",podtitul:"Najdi listy 3 stromů v řadě."}
+};
+/* kód hry: Lesní bingo 9 znaků, Stromy bingo „l“ + 9 znaků */
+function jeListy(kod){return kod.length===10&&kod.charAt(0)==="l"}
+function druhKodu(kod){return jeListy(kod)?"l":"v"}
+function telo(kod){return jeListy(kod)?kod.slice(1):kod}
+function katalog(kod){return jeListy(kod)?LISTY:VECI}
+function K(){return katalog(S.kod)}
+
 var RADY=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
 
 function $(id){return document.getElementById(id)}
@@ -146,11 +259,11 @@ function ch(i){return i.toString(36)}
 function nahodne(n){var s="";for(var i=0;i<n;i++)s+=ch(Math.floor(Math.random()*36));return s}
 function obdobi(){var m=new Date().getMonth()+1;return m>=3&&m<=5?"j":m>=6&&m<=8?"l":m>=9&&m<=11?"p":"z"}
 function zamichej(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
-function kodNaIndexy(k){return k.split("").map(function(c){return parseInt(c,36)})}
+function kodNaIndexy(k){return telo(k).split("").map(function(c){return parseInt(c,36)})}
 function platnyKod(k){
-  if(typeof k!=="string"||!/^[0-9a-z]{9}$/.test(k))return false;
-  var a=kodNaIndexy(k);
-  for(var i=0;i<a.length;i++){if(a[i]>=VECI.length||a.indexOf(a[i])!==i)return false}
+  if(typeof k!=="string"||!/^l?[0-9a-z]{9}$/.test(k))return false;
+  var a=kodNaIndexy(k),kat=katalog(k);
+  for(var i=0;i<a.length;i++){if(a[i]>=kat.length||a.indexOf(a[i])!==i)return false}
   return true;
 }
 
@@ -181,15 +294,15 @@ function novaHraZKodu(kod,skupina){
   ulozHru(h);
   return h;
 }
-function novyKod(){
+function novyKod(druh){
   var o=obdobi();
   var pool=[];
-  VECI.forEach(function(v,i){if(v[2].indexOf(o)>=0)pool.push(i)});
-  return zamichej(pool).slice(0,9).map(ch).join("");
+  (druh==="l"?LISTY:VECI).forEach(function(v,i){if(v[2].indexOf(o)>=0)pool.push(i)});
+  return (druh==="l"?"l":"")+zamichej(pool).slice(0,9).map(ch).join("");
 }
 /* mapa {stará věc: nová věc}; výměna drží pozici v kódu, takže stačí porovnat znak po znaku */
 function prenes(h,kod2,mapa,skupina){
-  var n={kod:kod2,skupina:skupina||h.skupina||null,poradi:h.poradi.map(function(i){return i in mapa?mapa[i]:i}),hotovo:{},bingo:h.bingo};
+  var n={kod:kod2,skupina:skupina||h.skupina||null,poradi:h.poradi.map(function(i){return i in mapa?mapa[i]:i}),hotovo:{},bingo:h.bingo,velke:false};
   h.poradi.forEach(function(i){
     var f=getFoto(h.kod,i);
     mazej(fotoKlic(h.kod,i));
@@ -202,6 +315,7 @@ function prenes(h,kod2,mapa,skupina){
   return n;
 }
 function zmeny(a,b){
+  if(druhKodu(a)!==druhKodu(b))return null;
   var A=kodNaIndexy(a),B=kodNaIndexy(b),mapa={},pocet=0;
   for(var i=0;i<A.length;i++){
     if(A[i]===B[i])continue;
@@ -213,12 +327,13 @@ function zmeny(a,b){
 function hashHry(){return "#hra-"+S.kod+(S.skupina?"."+S.skupina:"")}
 function nastavAktualni(){
   pis("lb:aktualni",S.kod);
+  pis("lb:aktualni:"+druhKodu(S.kod),S.kod);
   try{history.replaceState(null,"",hashHry())}catch(e){}
 }
 function pripojSe(kod,skupina){
   kod=(kod||"").toLowerCase();
   if(!platnyKod(kod)){
-    hlas("Tenhle kód hry nejde použít. Má mít 9 znaků a žádná věc se nesmí opakovat.",true);
+    hlas("Tenhle kód hry nejde použít. Zkontroluj, že je opsaný celý.",true);
     return false;
   }
   if(S&&S.kod===kod){
@@ -233,7 +348,7 @@ function pripojSe(kod,skupina){
   }else{
     var mapa=S?zmeny(S.kod,kod):null;
     if(mapa){
-      var popis=Object.keys(mapa).map(function(k){return VECI[k][1]+" → "+VECI[mapa[k]][1]}).join(", ");
+      var popis=Object.keys(mapa).map(function(k){return K()[k][1]+" → "+K()[mapa[k]][1]}).join(", ");
       zprava=(Object.keys(mapa).length===1?"Ve hře se vyměnila jedna věc: ":"Ve hře se vyměnily věci: ")+popis+". Zbytek ti zůstal.";
       S=prenes(S,kod,mapa,skupina);
     }else{
@@ -247,8 +362,8 @@ function pripojSe(kod,skupina){
   if(zprava)hlas(zprava);else schovejHlasku();
   return true;
 }
-function novaHra(){
-  S=novaHraZKodu(novyKod(),nahodne(10));
+function novaHra(druh){
+  S=novaHraZKodu(novyKod(druh||druhKodu(S.kod)),nahodne(10));
   rezimVymeny=false;
   nastavAktualni();
   render();
@@ -261,7 +376,23 @@ function vyherniRady(){
 
 /* ---------- vykreslení ---------- */
 function el(tag,cls,text){var e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e}
+function ikona(v,cls){
+  var s=el("span",cls==null?"em":cls);
+  if(OBRAZKY[v[0]]){
+    var im=document.createElement("img");
+    im.src=OBRAZKY[v[0]];im.alt="";
+    if(v[0].indexOf("l:")===0)im.className="list";
+    im.style.cssText="width:1em;height:1em;display:inline-block;vertical-align:-.12em";
+    s.appendChild(im);
+  }else s.textContent=v[0];
+  return s;
+}
+function nadpisVeci(v){var h=el("h2");h.appendChild(ikona(v,""));h.appendChild(document.createTextNode(" "+v[1]));return h}
 function render(){
+  var d=druhKodu(S.kod);
+  $("nadpis").textContent=DRUHY[d].nazev;
+  $("podtitul").textContent=DRUHY[d].podtitul;
+  document.title=DRUHY[d].nazev.slice(3);
   $("kod").textContent=S.kod;
   $("pocet").textContent=pocetNalezeno()+" / 9";
   var rady=vyherniRady();
@@ -271,7 +402,7 @@ function render(){
   pl.innerHTML="";
   pl.className="plocha"+(rezimVymeny?" vymena":"");
   S.poradi.forEach(function(item,p){
-    var v=VECI[item];
+    var v=K()[item];
     var b=el("button","pole");
     b.type="button";
     var f=S.hotovo[item]?getFoto(S.kod,item):null;
@@ -281,11 +412,11 @@ function render(){
       b.classList.add("foto");
       b.style.backgroundImage="url("+f+")";
       var st=el("div","stitek");
-      st.appendChild(el("span","em",v[0]));
+      st.appendChild(ikona(v));
       st.appendChild(el("span","",v[1]));
       b.appendChild(st);
     }else{
-      b.appendChild(el("span","em",v[0]));
+      b.appendChild(ikona(v));
       b.appendChild(el("span","jm",v[1]));
     }
     b.setAttribute("aria-label",v[1]+(S.hotovo[item]?" – nalezeno":""));
@@ -314,13 +445,13 @@ function tlacitko(text,cls,fn){
   return b;
 }
 function otevriMoznosti(item){
-  var v=VECI[item];
+  var v=K()[item];
   var hotovo=!!S.hotovo[item];
   var f=hotovo?getFoto(S.kod,item):null;
-  var u=[el("h2","",v[0]+" "+v[1])];
+  var u=[nadpisVeci(v)];
   if(hotovo){
     var velka=el("div","velka");
-    if(f)velka.style.backgroundImage="url("+f+")";else velka.textContent=v[0];
+    if(f)velka.style.backgroundImage="url("+f+")";else velka.appendChild(ikona(v,""));
     u.push(velka);
     u.push(tlacitko("📷 Vyfotit znovu","",function(){spustFoto(item)}));
     u.push(tlacitko("↩ Odznačit","sek",function(){odznac(item)}));
@@ -392,17 +523,18 @@ $("soubor").addEventListener("change",function(){
 function otevriVyber(stary){
   var o=obdobi();
   var volne=[];
-  VECI.forEach(function(v,i){if(S.poradi.indexOf(i)<0)volne.push(i)});
-  var vSezone=volne.filter(function(i){return VECI[i][2].indexOf(o)>=0});
-  var mimo=volne.filter(function(i){return VECI[i][2].indexOf(o)<0});
-  var u=[el("h2","","Čím nahradit „"+VECI[stary][1]+"“?")];
+  var kat=K();
+  kat.forEach(function(v,i){if(S.poradi.indexOf(i)<0)volne.push(i)});
+  var vSezone=volne.filter(function(i){return kat[i][2].indexOf(o)>=0});
+  var mimo=volne.filter(function(i){return kat[i][2].indexOf(o)<0});
+  var u=[el("h2","","Čím nahradit „"+kat[stary][1]+"“?")];
   function sekce(pole,cls){
     var g=el("div","vyber"+(cls?" "+cls:""));
     pole.forEach(function(i){
       var b=el("button");
       b.type="button";
-      b.appendChild(el("span","em",VECI[i][0]));
-      b.appendChild(el("span","",VECI[i][1]));
+      b.appendChild(ikona(kat[i]));
+      b.appendChild(el("span","",kat[i][1]));
       b.addEventListener("click",function(){vymenit(stary,i)});
       g.appendChild(b);
     });
@@ -415,8 +547,8 @@ function otevriVyber(stary){
 }
 function vymenit(stary,novy){
   zavriOkno();
-  var pozice=S.kod.indexOf(ch(stary));
-  var kod2=S.kod.slice(0,pozice)+ch(novy)+S.kod.slice(pozice+1);
+  var t=telo(S.kod),pozice=t.indexOf(ch(stary));
+  var kod2=(jeListy(S.kod)?"l":"")+t.slice(0,pozice)+ch(novy)+t.slice(pozice+1);
   var mapa={};mapa[stary]=novy;
   var mela=!!S.skupina;
   S=prenes(S,kod2,mapa,S.skupina||nahodne(10));
@@ -466,6 +598,13 @@ function aktualizuj(tiche){
 
 /* ---------- bingo ---------- */
 function kontrolaBingo(rady){
+  var vse=pocetNalezeno()===9;
+  if(vse&&!S.velke){
+    S.velke=true;S.bingo=true;ulozHru(S);
+    ukazVelkeBingo();
+    return;
+  }
+  if(!vse&&S.velke){S.velke=false;ulozHru(S)}
   if(rady.length&&!S.bingo){
     S.bingo=true;ulozHru(S);
     ukazBingo(rady[0]);
@@ -473,31 +612,44 @@ function kontrolaBingo(rady){
     S.bingo=false;ulozHru(S);
   }
 }
-function ukazBingo(rada){
+function dlazdice(pozice){
   var t=el("div","trojice");
-  rada.forEach(function(p){
-    var item=S.poradi[p];var v=VECI[item];
+  pozice.forEach(function(p){
+    var item=S.poradi[p];var v=K()[item];
     var f=getFoto(S.kod,item);
     var d=el("div",f?"":"bez");
-    if(f){d.style.backgroundImage="url("+f+")";d.appendChild(el("span","",v[0]+" "+v[1]))}
-    else{d.textContent=v[0]}
+    if(f){d.style.backgroundImage="url("+f+")";var sp=el("span");sp.appendChild(ikona(v,""));sp.appendChild(document.createTextNode(" "+v[1]));d.appendChild(sp)}
+    else{d.appendChild(ikona(v,"ik"))}
     t.appendChild(d);
   });
+  return t;
+}
+function ukazBingo(rada){
   okno([
     el("h2","","🏆 BINGO!"),
     el("p","","Máš tři v řadě. Zakřič to nahlas, ať to ostatní slyší!"),
-    t,
+    dlazdice(rada),
     tlacitko("Super!","zlaty",zavriOkno)
   ]);
-  konfety();
+  konfety(150,4000);
 }
-function konfety(){
+function ukazVelkeBingo(){
+  var h=el("h2","velke","🏆 VELKÉ BINGO! 🏆");
+  okno([
+    h,
+    el("p","","Našel jsi úplně všech 9! Tohle se musí zakřičet pořádně nahlas!"),
+    dlazdice([0,1,2,3,4,5,6,7,8]),
+    tlacitko("Jsem šampion!","zlaty",zavriOkno)
+  ]);
+  konfety(400,7000);
+}
+function konfety(pocet,doba){
   var c=$("konfety");
   c.width=window.innerWidth;c.height=window.innerHeight;
   var g=c.getContext("2d");
   var barvy=["#e3a72f","#2f6b3f","#f3efe2","#c0562f","#7fb069","#4a90b8"];
   var cast=[];
-  for(var i=0;i<150;i++){
+  for(var i=0;i<pocet;i++){
     cast.push({x:Math.random()*c.width,y:-20-Math.random()*c.height*0.6,vx:(Math.random()-0.5)*3,vy:2+Math.random()*4,s:5+Math.random()*7,r:Math.random()*6,vr:(Math.random()-0.5)*0.3,b:barvy[Math.floor(Math.random()*barvy.length)]});
   }
   var t0=performance.now();
@@ -508,7 +660,7 @@ function konfety(){
       p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;
       g.save();g.translate(p.x,p.y);g.rotate(p.r);g.fillStyle=p.b;g.fillRect(-p.s/2,-p.s/3,p.s,p.s*0.6);g.restore();
     });
-    if(t-t0<4000)requestAnimationFrame(f);
+    if(t-t0<doba)requestAnimationFrame(f);
     else{g.clearRect(0,0,c.width,c.height);c.style.display="none"}
   }
   requestAnimationFrame(f);
@@ -554,6 +706,28 @@ function sdilet(){
 
 /* ---------- ovládání ---------- */
 $("sdilet").addEventListener("click",sdilet);
+function prepniDruh(d){
+  if(druhKodu(S.kod)===d)return;
+  var k=cti("lb:aktualni:"+d),h=k&&platnyKod(k)&&druhKodu(k)===d?nactiHru(k):null;
+  rezimVymeny=false;
+  if(h){S=h;nastavAktualni();render();schovejHlasku();aktualizuj(true)}
+  else novaHra(d);
+}
+$("dalsiHry").addEventListener("click",function(){
+  var ted=druhKodu(S.kod),g=el("div","hry");
+  [["v","🌲","Lesní bingo","Věci, které najdeš v lese"],["l","🍃","Stromy bingo","Jen listy stromů"]].forEach(function(h){
+    var b=el("button",h[0]===ted?"ted":"");
+    b.type="button";
+    b.appendChild(el("span","em",h[1]));
+    var t=el("span");
+    t.appendChild(el("b","",h[2]));
+    t.appendChild(el("small","",h[0]===ted?"Právě hraješ":h[3]));
+    b.appendChild(t);
+    b.addEventListener("click",function(){zavriOkno();prepniDruh(h[0])});
+    g.appendChild(b);
+  });
+  okno([el("h2","","Další hry"),g,tlacitko("Zavřít","sek",zavriOkno)]);
+});
 $("aktualizovat").addEventListener("click",function(){aktualizuj(false)});
 document.addEventListener("visibilitychange",function(){if(document.visibilityState==="visible")aktualizuj(true)});
 $("vymena").addEventListener("click",function(){
@@ -562,7 +736,7 @@ $("vymena").addEventListener("click",function(){
   if(rezimVymeny)hlas("Ťukni na políčko, které nedává smysl, a vyber náhradu.");else schovejHlasku();
 });
 $("nova").addEventListener("click",function(){
-  if(pocetNalezeno()===0){novaHra();return}
+  if(pocetNalezeno()===0){novaHra();schovejHlasku();return}
   okno([
     el("h2","","Začít novou hru?"),
     el("p","","Tahle hra zůstane uložená pod kódem "+S.kod+", takže se k ní můžeš vrátit."),
@@ -572,8 +746,8 @@ $("nova").addEventListener("click",function(){
 });
 function pripojZPole(){
   var v=$("vstup").value.trim().toLowerCase();
-  var m=v.match(/hra-([0-9a-z]{9})(?:\.([0-9a-z]{4,20}))?/)||v.match(/(?:^|[^0-9a-z])([0-9a-z]{9})(?:$|[^0-9a-z])/);
-  if(!m){hlas("Zadej 9znakový kód hry.",true);return}
+  var m=v.match(/hra-(l?[0-9a-z]{9})(?:\.([0-9a-z]{4,20}))?/)||v.match(/(?:^|[^0-9a-z])(l?[0-9a-z]{9})(?:$|[^0-9a-z])/);
+  if(!m){hlas("Zadej kód hry od kamaráda.",true);return}
   if(pripojSe(m[1],m[2])){$("vstup").value="";$("pripojit").open=false}
 }
 $("pripojBtn").addEventListener("click",pripojZPole);
@@ -594,7 +768,7 @@ window.addEventListener("hashchange",function(){var k=kodZUrl();if(k)pripojSe(k.
   var k=kodZUrl();
   var ok=k?pripojSe(k.kod,k.skupina):false;
   if(!ok){
-    if(!S)S=novaHraZKodu(novyKod(),nahodne(10));
+    if(!S)S=novaHraZKodu(novyKod("v"),nahodne(10));
     nastavAktualni();
     render();
   }
