@@ -41,6 +41,12 @@ h1{font-family:"Fraunces",Georgia,serif;font-weight:900;font-size:30px;line-heig
 .vyber button .em img.list{width:1.5em!important;height:1.5em!important}
 .pole .em img.list,.okno .velka img.list{width:1.75em!important;height:1.75em!important}
 img.list{border-radius:10px;object-fit:contain;background:#fff}
+.pole.logo{padding:10px}
+.pole.logo .em{display:flex;width:100%;height:100%;align-items:center;justify-content:center}
+.pole.logo .em img.list{width:100%!important;height:100%!important;border-radius:14px}
+.vyber button .em img.list{background:#fff}
+.vyber button.jenlogo{justify-content:center;padding:6px}
+.vyber button.jenlogo .em img.list{width:64px!important;height:64px!important}
 .pole .jm{font-weight:800;font-size:clamp(12px,3.6vw,15px);line-height:1.15;padding:0 2px}
 .pole.hotovo{background-color:var(--zelena-svetla);border-color:var(--zelena);box-shadow:0 3px 0 var(--zelena)}
 .pole.hotovo::after{content:"✓";position:absolute;top:6px;right:6px;width:24px;height:24px;border-radius:50%;background:var(--zelena);color:#fff;font-weight:800;font-size:15px;line-height:24px;text-align:center;z-index:2}
@@ -340,7 +346,9 @@ function ikona(v,cls){
   }else s.textContent=v[0];
   return s;
 }
-function nadpisVeci(v){var h=el("h2");h.appendChild(ikona(v,""));h.appendChild(document.createTextNode(" "+v[1]));return h}
+/* u aut stačí logo, název se nepíše */
+function jenLogo(v){return v[0].indexOf("a:")===0}
+function nadpisVeci(v){var h=el("h2");h.appendChild(ikona(v,""));if(!jenLogo(v))h.appendChild(document.createTextNode(" "+v[1]));return h}
 function render(){
   var d=druhKodu(S.kod);
   $("nadpis").textContent=DRUHY[d].nazev;
@@ -366,11 +374,12 @@ function render(){
       b.style.backgroundImage="url("+f+")";
       var st=el("div","stitek");
       st.appendChild(ikona(v));
-      st.appendChild(el("span","",v[1]));
+      if(!jenLogo(v))st.appendChild(el("span","",v[1]));
       b.appendChild(st);
     }else{
       b.appendChild(ikona(v));
-      b.appendChild(el("span","jm",v[1]));
+      if(jenLogo(v))b.classList.add("logo");
+      else b.appendChild(el("span","jm",v[1]));
     }
     b.setAttribute("aria-label",v[1]+(S.hotovo[item]?" – nalezeno":""));
     b.addEventListener("click",function(){rezimVymeny?otevriVyber(item):otevriMoznosti(item)});
@@ -487,7 +496,8 @@ function otevriVyber(stary){
       var b=el("button");
       b.type="button";
       b.appendChild(ikona(kat[i]));
-      b.appendChild(el("span","",kat[i][1]));
+      if(jenLogo(kat[i])){b.classList.add("jenlogo");b.setAttribute("aria-label",kat[i][1])}
+      else b.appendChild(el("span","",kat[i][1]));
       b.addEventListener("click",function(){vymenit(stary,i)});
       g.appendChild(b);
     });
@@ -571,7 +581,7 @@ function dlazdice(pozice){
     var item=S.poradi[p];var v=K()[item];
     var f=getFoto(S.kod,item);
     var d=el("div",f?"":"bez");
-    if(f){d.style.backgroundImage="url("+f+")";var sp=el("span");sp.appendChild(ikona(v,""));sp.appendChild(document.createTextNode(" "+v[1]));d.appendChild(sp)}
+    if(f){d.style.backgroundImage="url("+f+")";var sp=el("span");sp.appendChild(ikona(v,""));if(!jenLogo(v))sp.appendChild(document.createTextNode(" "+v[1]));d.appendChild(sp)}
     else{d.appendChild(ikona(v,"ik"))}
     t.appendChild(d);
   });
