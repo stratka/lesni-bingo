@@ -39,7 +39,8 @@ h1{font-family:"Fraunces",Georgia,serif;font-weight:900;font-size:30px;line-heig
 .pole:active{transform:translateY(2px);box-shadow:0 1px 0 var(--linka)}
 .pole .em{font-size:clamp(34px,12vw,54px);line-height:1}
 .vyber button .em img.list{width:1.5em!important;height:1.5em!important}
-.pole .em img.list,.okno .velka img.list{width:1.6em!important;height:1.6em!important}
+.pole .em img.list,.okno .velka img.list{width:1.75em!important;height:1.75em!important}
+img.list{border-radius:10px;object-fit:contain;background:#fff}
 .pole .jm{font-weight:800;font-size:clamp(12px,3.6vw,15px);line-height:1.15;padding:0 2px}
 .pole.hotovo{background-color:var(--zelena-svetla);border-color:var(--zelena);box-shadow:0 3px 0 var(--zelena)}
 .pole.hotovo::after{content:"✓";position:absolute;top:6px;right:6px;width:24px;height:24px;border-radius:50%;background:var(--zelena);color:#fff;font-weight:800;font-size:15px;line-height:24px;text-align:center;z-index:2}
@@ -140,6 +141,14 @@ input[type=file]{display:none}
       </ol>
     </div>
   </details>
+
+  <details class="panel">
+    <summary>Fotky listů</summary>
+    <div class="telo">
+      <p style="margin:0 0 8px;color:var(--tlumene)">Fotky jsou z Wikimedia Commons, oříznuté a zmenšené. Licence CC BY-SA.</p>
+      <ul style="margin:0;padding-left:20px;font-size:14px"><li>Dub: <a href="https://commons.wikimedia.org/wiki/File:Quercus_robur_leaf.jpg" target="_blank" rel="noopener">Dmitry Makeev</a>, CC BY-SA 4.0</li><li>Buk: <a href="https://commons.wikimedia.org/wiki/File:Autumn_European_Beech_Leaf.jpg" target="_blank" rel="noopener">Ninjatacoshell</a>, CC BY-SA 3.0</li><li>Javor: <a href="https://commons.wikimedia.org/wiki/File:2020_year._Herbarium._Acer_platanoides._img-014.jpg" target="_blank" rel="noopener">Dmitry Makeev</a>, CC BY-SA 4.0</li><li>Lípa: <a href="https://commons.wikimedia.org/wiki/File:2020_year._Herbarium._Tilia_cordata._img-010.jpg" target="_blank" rel="noopener">Dmitry Makeev</a>, CC BY-SA 4.0</li><li>Bříza: <a href="https://commons.wikimedia.org/wiki/File:2020_year._Herbarium._Betula._img-068.jpg" target="_blank" rel="noopener">Dmitry Makeev</a>, CC BY-SA 4.0</li><li>Habr: <a href="https://commons.wikimedia.org/wiki/File:Carpinus_betulus_leaf_01_by_Line1.jpg" target="_blank" rel="noopener">Liné1</a>, CC BY-SA 3.0</li><li>Jasan: <a href="https://commons.wikimedia.org/wiki/File:2020_year._Herbarium._Fraxinus._img-008.jpg" target="_blank" rel="noopener">Dmitry Makeev</a>, CC BY-SA 4.0</li><li>Kaštan (jírovec): <a href="https://commons.wikimedia.org/wiki/File:Aesculus_hippocastanum_scanned_leaf.png" target="_blank" rel="noopener">Andrikkos</a>, CC BY-SA 3.0</li><li>Olše: <a href="https://commons.wikimedia.org/wiki/File:2020_year._Herbarium._Alnus_glutinosa._img-002.jpg" target="_blank" rel="noopener">Dmitry Makeev</a>, CC BY-SA 4.0</li><li>Jeřáb: <a href="https://commons.wikimedia.org/wiki/File:2020_year._Herbarium._Sorbus_aucuparia._img-013.jpg" target="_blank" rel="noopener">Dmitry Makeev</a>, CC BY-SA 4.0</li><li>Líska: <a href="https://commons.wikimedia.org/wiki/File:2020_year._Herbarium._Corylus_avellana._img-001.jpg" target="_blank" rel="noopener">Dmitry Makeev</a>, CC BY-SA 4.0</li><li>Vrba: <a href="https://commons.wikimedia.org/wiki/File:2020_year._Herbarium._Salix_alba._img-019.jpg" target="_blank" rel="noopener">Dmitry Makeev</a>, CC BY-SA 4.0</li><li>Topol osika: <a href="https://commons.wikimedia.org/wiki/File:2020_year._Herbarium._Populus_tremula._img-053.jpg" target="_blank" rel="noopener">Dmitry Makeev</a>, CC BY-SA 4.0</li><li>Třešeň: <a href="https://commons.wikimedia.org/wiki/File:2020_year._Herbarium._Prunus_cerasus._img-002.jpg" target="_blank" rel="noopener">Dmitry Makeev</a>, CC BY-SA 4.0</li></ul>
+    </div>
+  </details>
 </div>
 
 <div class="modal" id="modal"><div class="okno" id="okno"></div></div>
@@ -164,83 +173,13 @@ var OBRAZKY={
   siska:"data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M32 6V1" stroke="#4e2d10" stroke-width="3"/><path d="M32 5C23 5 16 13 16 26c0 14 7 27 16 34 9-7 16-20 16-34C48 13 41 5 32 5z" fill="#94592a" stroke="#4e2d10" stroke-width="2.5"/><g stroke="#4e2d10" stroke-width="2.5"><path d="M21 14q5.5 6 11 0q5.5 6 11 0"/><path d="M17 22q7.5 7 15 0q7.5 7 15 0"/><path d="M17 31q7.5 7 15 0q7.5 7 15 0"/><path d="M19 40q6.5 7 13 0q6.5 7 13 0"/><path d="M24 49q4 5 8 0q4 5 8 0"/></g><g stroke="#c58a4f" stroke-width="1.6"><path d="M24 18l2 1"/><path d="M38 18l2 1"/><path d="M22 27l3 1"/><path d="M38 27l3 1"/><path d="M23 36l3 1"/><path d="M38 36l3 1"/></g></svg>'),
   klacek:"data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke-linecap="round" stroke-linejoin="round"><g stroke="#5b3818" stroke-width="10"><path d="M31 60 32 37 14 7"/><path d="M32 38 51 9"/><path d="M22 21 15 19"/></g><g stroke="#a06a36" stroke-width="6"><path d="M31 60 32 37 14 7"/><path d="M32 38 51 9"/><path d="M22 21 15 19"/></g><g stroke="#6aa84f" stroke-width="5"><path d="M51 9 57 6"/></g></svg>')
 };
-/* ---------- listy stromů (kreslené) ---------- */
-function cislo(x){return Math.round(x*10)/10}
-function kopie(o,zmena){var n={},k;for(k in o)n[k]=o[k];for(k in zmena)n[k]=zmena[k];return n}
-/* obrys listu: w(t) je polovina šířky jako podíl délky, od řapíku (t=0) ke špičce (t=1) */
-function obrys(o){
-  var n=72,P=[],L=[],x0=o.x0||0,y0=o.y0||0;
-  for(var i=0;i<=n;i++){
-    var t=i/n,w=Math.max(0,o.w(t)*o.d);
-    if(o.zuby){var z=(t*o.zuby)%1,v=o.zubV*Math.min(1,w/3);w=Math.max(0,w+v*(z<0.75?z/0.75:(1-z)/0.25)-v)}
-    var y=y0-o.d*t;
-    P.push(cislo(x0+w)+" "+cislo(y));L.unshift(cislo(x0-w)+" "+cislo(y));
-  }
-  var s="M"+x0+" "+cislo(y0-(o.zarez||0))+"L"+P.join("L");
-  if(o.spicka)s+="L"+x0+" "+cislo(y0-o.d+o.spicka);
-  return s+"L"+L.join("L")+"Z";
-}
-function zilky(o){
-  var x0=o.x0||0,y0=o.y0||0,s="M"+x0+" "+y0+"L"+x0+" "+cislo(y0-o.d*0.92);
-  for(var k=1;k<=(o.zilky||0);k++){
-    var t=k/(o.zilky+1)*0.92,y=y0-o.d*t,w=o.w(t)*o.d*0.78;
-    s+="M"+x0+" "+cislo(y)+"L"+cislo(x0+w)+" "+cislo(y-o.d*0.08)+"M"+x0+" "+cislo(y)+"L"+cislo(x0-w)+" "+cislo(y-o.d*0.08);
-  }
-  return s;
-}
-var BARVA="#6fae4f",LINKA="#2f5d23";
-function kresliList(o){return '<path d="'+obrys(o)+'" fill="'+BARVA+'" stroke="'+LINKA+'" stroke-width="1.8"/><path d="'+zilky(o)+'" stroke="'+LINKA+'" stroke-width="1.1" fill="none"/>'}
-function svg(obsah){return "data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" stroke-linecap="round" stroke-linejoin="round">'+obsah+'</svg>')}
-function stopka(y1){return '<path d="M32 62L32 '+y1+'" stroke="'+LINKA+'" stroke-width="2.4" fill="none"/>'}
-function jednoduchy(o){o=kopie(o,{x0:32});return svg(stopka(o.y0)+kresliList(o))}
-function listek(o,x,y,uhel){return '<g transform="translate('+x+' '+y+') rotate('+uhel+')">'+kresliList(kopie(o,{x0:0,y0:0}))+'</g>'}
-function zpereny(o,pary,konec){
-  var s=stopka(konec);
-  pary.forEach(function(p){var q=kopie(o,{d:p[2]});s+=listek(q,32,p[0],-p[1])+listek(q,32,p[0],p[1])});
-  return svg(s+listek(o,32,konec,0));
-}
-function dlanity(o,listky,y){
-  var s=stopka(y);
-  listky.forEach(function(l){s+=listek(kopie(o,{d:l[1]}),32,y,l[0])});
-  return svg(s);
-}
-function javor(){
-  var cx=32,cy=33,b=[],zily="";
-  for(var i=0;i<=200;i++){
-    var th=-Math.PI+2*Math.PI*i/200;
-    var r=26*(0.36+0.64*Math.pow(Math.abs(Math.cos(2.5*th)),1.6))*(0.74+0.26*Math.cos(th));
-    var z=(i/200*44)%1;r-=1.4*(z<0.7?z/0.7:(1-z)/0.3);
-    b.push(cislo(cx+r*Math.sin(th))+" "+cislo(cy-r*Math.cos(th)));
-  }
-  [0,72,-72,144,-144].forEach(function(a){
-    var t=a*Math.PI/180,r=21*(0.74+0.26*Math.cos(t));
-    zily+="M"+cx+" "+cy+"L"+cislo(cx+r*Math.sin(t))+" "+cislo(cy-r*Math.cos(t));
-  });
-  return svg(stopka(cy)+'<path d="M'+b.join("L")+'Z" fill="#d9822b" stroke="#8a4a12" stroke-width="1.8"/><path d="'+zily+'" stroke="#8a4a12" stroke-width="1.1" fill="none"/>');
-}
-function sin(x){return Math.sin(Math.PI*x)}
-var LISTY_OBR={
-  dub:jednoduchy({y0:54,d:48,zilky:4,w:function(t){return 0.3*Math.pow(sin(t),0.6)*(0.6+0.5*t)*(0.42+0.58*Math.abs(Math.sin(Math.PI*4.5*t)))}}),
-  buk:jednoduchy({y0:54,d:48,zilky:7,w:function(t){return 0.3*Math.pow(sin(t),0.75)}}),
-  javor:javor(),
-  lipa:jednoduchy({y0:57,d:50,zarez:9,zilky:4,zuby:24,zubV:1.2,w:function(t){return 0.4*Math.pow(sin(0.08+0.9*t),0.75)*(1-0.4*Math.pow(t,5))}}),
-  briza:jednoduchy({y0:54,d:46,zilky:6,zuby:16,zubV:1.5,w:function(t){return 0.37*(t<0.22?Math.pow(t/0.22,0.6):(1-t)/0.78)}}),
-  habr:jednoduchy({y0:55,d:50,zilky:11,zuby:28,zubV:1.1,w:function(t){return 0.23*Math.pow(sin(Math.pow(t,0.85)),0.9)}}),
-  jasan:zpereny({d:15,zilky:0,zuby:8,zubV:0.6,w:function(t){return 0.2*Math.pow(sin(t),0.8)}},[[50,62,15],[38,58,16],[26,52,15]],15),
-  jirovec:dlanity({d:30,zilky:5,zuby:12,zubV:0.8,w:function(t){return 0.19*Math.pow(sin(Math.pow(t,1.9)),0.8)}},[[-80,16],[-53,23],[-26,29],[0,32],[26,29],[53,23],[80,16]],46),
-  olse:jednoduchy({y0:55,d:46,spicka:5,zilky:6,zuby:14,zubV:0.9,w:function(t){return 0.38*Math.pow(sin(0.06+0.86*t),0.6)*(0.62+0.38*t)}}),
-  jerab:zpereny({d:12,zilky:0,zuby:8,zubV:0.8,w:function(t){return 0.17*Math.pow(sin(t),0.6)}},[[54,78,11],[46,76,12],[38,74,12],[30,70,11],[22,64,10]],14),
-  liska:jednoduchy({y0:56,d:48,zarez:6,zilky:5,zuby:18,zubV:1.8,w:function(t){return 0.42*Math.pow(sin(0.06+0.86*t),0.55)*(1-0.55*Math.pow(t,4))}}),
-  vrba:jednoduchy({y0:58,d:54,zilky:0,zuby:30,zubV:0.4,w:function(t){return 0.085*Math.pow(sin(t),0.9)}}),
-  osika:jednoduchy({y0:52,d:40,zilky:4,zuby:9,zubV:1.6,w:function(t){return 0.46*Math.pow(sin(0.04+0.9*t),0.55)}}),
-  akat:zpereny({d:10,zilky:0,w:function(t){return 0.42*Math.pow(sin(t),0.5)}},[[52,82,10],[41,82,10],[30,80,10]],18)
-};
+/* ---------- listy stromů (fotky z Wikimedia Commons, autoři v „Fotky listů“) ---------- */
 var LISTY=[
 ["l:dub","Dub",VSE],["l:buk","Buk",VSE],["l:javor","Javor",VSE],["l:lipa","Lípa",VSE],["l:briza","Bříza",VSE],
 ["l:habr","Habr",VSE],["l:jasan","Jasan",VSE],["l:jirovec","Kaštan (jírovec)",VSE],["l:olse","Olše",VSE],
-["l:jerab","Jeřáb",VSE],["l:liska","Líska",VSE],["l:vrba","Vrba",VSE],["l:osika","Topol osika",VSE],["l:akat","Akát",VSE]
+["l:jerab","Jeřáb",VSE],["l:liska","Líska",VSE],["l:vrba","Vrba",VSE],["l:osika","Topol osika",VSE],["l:tresen","Třešeň",VSE]
 ];
-LISTY.forEach(function(v){OBRAZKY[v[0]]=LISTY_OBR[v[0].slice(2)]});
+LISTY.forEach(function(v){OBRAZKY[v[0]]="listy/"+v[0].slice(2)+".jpg"});
 var DRUHY={
   v:{nazev:"🌲 Lesní bingo",podtitul:"Najdi na procházce 3 věci v řadě."},
   l:{nazev:"🍃 Stromy bingo",podtitul:"Najdi listy 3 stromů v řadě."}
