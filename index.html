@@ -41,11 +41,6 @@ h1{font-family:"Fraunces",Georgia,serif;font-weight:900;font-size:30px;line-heig
 .vyber button .em img.list{width:1.5em!important;height:1.5em!important}
 .pole .em img.list,.okno .velka img.list{width:1.75em!important;height:1.75em!important}
 img.list{border-radius:10px;object-fit:contain;background:#fff}
-.znacka{display:inline-block;max-width:100%;border-radius:.22em;padding:.2em .34em;font-family:"Nunito",system-ui,sans-serif;font-weight:900;line-height:1.05;letter-spacing:.02em;text-transform:uppercase;overflow-wrap:anywhere;box-shadow:inset 0 0 0 .1em rgba(255,255,255,.5),0 .08em 0 rgba(0,0,0,.25)}
-.pole .em .znacka{font-size:clamp(14px,5.2vw,23px)}
-.vyber .znacka{font-size:14px}
-.okno .velka .znacka{font-size:32px}
-.trojice .znacka{font-size:12px}
 .pole .jm{font-weight:800;font-size:clamp(12px,3.6vw,15px);line-height:1.15;padding:0 2px}
 .pole.hotovo{background-color:var(--zelena-svetla);border-color:var(--zelena);box-shadow:0 3px 0 var(--zelena)}
 .pole.hotovo::after{content:"✓";position:absolute;top:6px;right:6px;width:24px;height:24px;border-radius:50%;background:var(--zelena);color:#fff;font-weight:800;font-size:15px;line-height:24px;text-align:center;z-index:2}
@@ -148,10 +143,13 @@ input[type=file]{display:none}
   </details>
 
   <details class="panel">
-    <summary>Fotky listů</summary>
+    <summary>Obrázky a zdroje</summary>
     <div class="telo">
       <p style="margin:0 0 8px;color:var(--tlumene)">Fotky jsou z Wikimedia Commons, oříznuté a zmenšené. Licence CC BY-SA.</p>
+      <p style="margin:0 0 8px;font-weight:800">Listy stromů</p>
       <ul style="margin:0;padding-left:20px;font-size:14px"><li>Dub: <a href="https://commons.wikimedia.org/wiki/File:Quercus_robur_leaf.jpg" target="_blank" rel="noopener">Dmitry Makeev</a>, CC BY-SA 4.0</li><li>Buk: <a href="https://commons.wikimedia.org/wiki/File:Autumn_European_Beech_Leaf.jpg" target="_blank" rel="noopener">Ninjatacoshell</a>, CC BY-SA 3.0</li><li>Javor: <a href="https://commons.wikimedia.org/wiki/File:2020_year._Herbarium._Acer_platanoides._img-014.jpg" target="_blank" rel="noopener">Dmitry Makeev</a>, CC BY-SA 4.0</li><li>Lípa: <a href="https://commons.wikimedia.org/wiki/File:2020_year._Herbarium._Tilia_cordata._img-010.jpg" target="_blank" rel="noopener">Dmitry Makeev</a>, CC BY-SA 4.0</li><li>Bříza: <a href="https://commons.wikimedia.org/wiki/File:2020_year._Herbarium._Betula._img-068.jpg" target="_blank" rel="noopener">Dmitry Makeev</a>, CC BY-SA 4.0</li><li>Habr: <a href="https://commons.wikimedia.org/wiki/File:Carpinus_betulus_leaf_01_by_Line1.jpg" target="_blank" rel="noopener">Liné1</a>, CC BY-SA 3.0</li><li>Jasan: <a href="https://commons.wikimedia.org/wiki/File:2020_year._Herbarium._Fraxinus._img-008.jpg" target="_blank" rel="noopener">Dmitry Makeev</a>, CC BY-SA 4.0</li><li>Kaštan (jírovec): <a href="https://commons.wikimedia.org/wiki/File:Aesculus_hippocastanum_scanned_leaf.png" target="_blank" rel="noopener">Andrikkos</a>, CC BY-SA 3.0</li><li>Olše: <a href="https://commons.wikimedia.org/wiki/File:2020_year._Herbarium._Alnus_glutinosa._img-002.jpg" target="_blank" rel="noopener">Dmitry Makeev</a>, CC BY-SA 4.0</li><li>Jeřáb: <a href="https://commons.wikimedia.org/wiki/File:2020_year._Herbarium._Sorbus_aucuparia._img-013.jpg" target="_blank" rel="noopener">Dmitry Makeev</a>, CC BY-SA 4.0</li><li>Líska: <a href="https://commons.wikimedia.org/wiki/File:2020_year._Herbarium._Corylus_avellana._img-001.jpg" target="_blank" rel="noopener">Dmitry Makeev</a>, CC BY-SA 4.0</li><li>Vrba: <a href="https://commons.wikimedia.org/wiki/File:2020_year._Herbarium._Salix_alba._img-019.jpg" target="_blank" rel="noopener">Dmitry Makeev</a>, CC BY-SA 4.0</li><li>Topol osika: <a href="https://commons.wikimedia.org/wiki/File:2020_year._Herbarium._Populus_tremula._img-053.jpg" target="_blank" rel="noopener">Dmitry Makeev</a>, CC BY-SA 4.0</li><li>Třešeň: <a href="https://commons.wikimedia.org/wiki/File:2020_year._Herbarium._Prunus_cerasus._img-002.jpg" target="_blank" rel="noopener">Dmitry Makeev</a>, CC BY-SA 4.0</li></ul>
+      <p style="margin:12px 0 6px;font-weight:800">Loga aut</p>
+      <p style="margin:0;font-size:14px;color:var(--tlumene)">Loga jsou ochranné známky svých výrobců, hra s nimi nijak nesouvisí. Obrázky jsou z Wikimedia Commons, volná díla; logo Škoda: <a href="https://commons.wikimedia.org/wiki/File:Skoda-Auto-Logo-2011-present.svg" target="_blank" rel="noopener">Rpolarbear17</a>, CC BY 4.0.</p>
     </div>
   </details>
 </div>
@@ -185,21 +183,16 @@ var LISTY=[
 ["l:jerab","Jeřáb",VSE],["l:liska","Líska",VSE],["l:vrba","Vrba",VSE],["l:osika","Topol osika",VSE],["l:tresen","Třešeň",VSE]
 ];
 LISTY.forEach(function(v){OBRAZKY[v[0]]="listy/"+v[0].slice(2)+".jpg"});
-/* ---------- značky aut: barevný štítek s názvem (ne logo) ---------- */
-var CZ="🇨🇿 Česko",DE="🇩🇪 Německo",JP="🇯🇵 Japonsko",KR="🇰🇷 Korea",US="🇺🇸 USA",FR="🇫🇷 Francie",IT="🇮🇹 Itálie",ES="🇪🇸 Španělsko",SE="🇸🇪 Švédsko",GB="🇬🇧 Británie",RO="🇷🇴 Rumunsko";
+/* ---------- značky aut: loga z Wikimedia Commons (zdroje v „Obrázky a zdroje“) ---------- */
 var AUTA=[
-["a:skoda","Škoda",VSE,"#4ba82e",CZ],["a:vw","Volkswagen",VSE,"#1e3a8a",DE],["a:bmw","BMW",VSE,"#1c69d4",DE],["a:audi","Audi",VSE,"#3d3d3d",DE],
-["a:mercedes","Mercedes",VSE,"#5f6b73",DE],["a:opel","Opel",VSE,"#f5d800",DE,"#222"],["a:porsche","Porsche",VSE,"#b12b28",DE],
-["a:toyota","Toyota",VSE,"#eb0a1e",JP],["a:mazda","Mazda",VSE,"#7a1f2b",JP],["a:suzuki","Suzuki",VSE,"#e30613",JP],["a:honda","Honda",VSE,"#444",JP],
-["a:nissan","Nissan",VSE,"#c3002f",JP],["a:mitsubishi","Mitsubishi",VSE,"#d10019",JP],["a:subaru","Subaru",VSE,"#013c74",JP],["a:lexus","Lexus",VSE,"#1a1a1a",JP],
-["a:hyundai","Hyundai",VSE,"#002c5f",KR],["a:kia","Kia",VSE,"#05141f",KR],
-["a:ford","Ford",VSE,"#003478",US],["a:tesla","Tesla",VSE,"#cc0000",US],["a:jeep","Jeep",VSE,"#3b4a2f",US],
-["a:renault","Renault",VSE,"#f2c400",FR,"#222"],["a:peugeot","Peugeot",VSE,"#1a1a1a",FR],["a:citroen","Citroën",VSE,"#a6192e",FR],
-["a:dacia","Dacia",VSE,"#646b52",RO],["a:fiat","Fiat",VSE,"#9b1b30",IT],["a:alfa","Alfa Romeo",VSE,"#8f1a1a",IT],
-["a:seat","Seat",VSE,"#c4161c",ES],["a:cupra","Cupra",VSE,"#95572b",ES],["a:volvo","Volvo",VSE,"#003057",SE],["a:landrover","Land Rover",VSE,"#005a2b",GB],
-["a:mini","Mini",VSE,"#111",GB]
+["a:skoda","Škoda",VSE],["a:vw","Volkswagen",VSE],["a:bmw","BMW",VSE],["a:audi","Audi",VSE],["a:mercedes","Mercedes",VSE],
+["a:opel","Opel",VSE],["a:toyota","Toyota",VSE],["a:mazda","Mazda",VSE],["a:suzuki","Suzuki",VSE],["a:honda","Honda",VSE],
+["a:nissan","Nissan",VSE],["a:mitsubishi","Mitsubishi",VSE],["a:subaru","Subaru",VSE],["a:lexus","Lexus",VSE],["a:hyundai","Hyundai",VSE],
+["a:kia","Kia",VSE],["a:ford","Ford",VSE],["a:tesla","Tesla",VSE],["a:jeep","Jeep",VSE],["a:renault","Renault",VSE],
+["a:citroen","Citroën",VSE],["a:dacia","Dacia",VSE],["a:fiat","Fiat",VSE],["a:seat","Seat",VSE],["a:cupra","Cupra",VSE],
+["a:volvo","Volvo",VSE],["a:landrover","Land Rover",VSE],["a:mini","Mini",VSE]
 ];
-function jeAuto(v){return v[0].indexOf("a:")===0}
+AUTA.forEach(function(v){OBRAZKY[v[0]]="auta/"+v[0].slice(2)+".png"});
 var DRUHY={
   v:{nazev:"🌲 Lesní bingo",podtitul:"Najdi na procházce 3 věci v řadě."},
   l:{nazev:"🍃 Stromy bingo",podtitul:"Najdi listy 3 stromů v řadě."},
@@ -338,21 +331,16 @@ function vyherniRady(){
 function el(tag,cls,text){var e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e}
 function ikona(v,cls){
   var s=el("span",cls==null?"em":cls);
-  if(jeAuto(v)){
-    var z=el("span","znacka",v[1]);
-    z.style.background=v[3];
-    z.style.color=v[5]||"#fff";
-    s.appendChild(z);
-  }else if(OBRAZKY[v[0]]){
+  if(OBRAZKY[v[0]]){
     var im=document.createElement("img");
     im.src=OBRAZKY[v[0]];im.alt="";
-    if(v[0].indexOf("l:")===0)im.className="list";
+    if(/^[la]:/.test(v[0]))im.className="list";
     im.style.cssText="width:1em;height:1em;display:inline-block;vertical-align:-.12em";
     s.appendChild(im);
   }else s.textContent=v[0];
   return s;
 }
-function nadpisVeci(v){var h=el("h2");h.appendChild(ikona(v,""));if(!jeAuto(v))h.appendChild(document.createTextNode(" "+v[1]));return h}
+function nadpisVeci(v){var h=el("h2");h.appendChild(ikona(v,""));h.appendChild(document.createTextNode(" "+v[1]));return h}
 function render(){
   var d=druhKodu(S.kod);
   $("nadpis").textContent=DRUHY[d].nazev;
@@ -377,12 +365,12 @@ function render(){
       b.classList.add("foto");
       b.style.backgroundImage="url("+f+")";
       var st=el("div","stitek");
-      if(!jeAuto(v))st.appendChild(ikona(v));
+      st.appendChild(ikona(v));
       st.appendChild(el("span","",v[1]));
       b.appendChild(st);
     }else{
       b.appendChild(ikona(v));
-      b.appendChild(el("span","jm",jeAuto(v)?v[4]:v[1]));
+      b.appendChild(el("span","jm",v[1]));
     }
     b.setAttribute("aria-label",v[1]+(S.hotovo[item]?" – nalezeno":""));
     b.addEventListener("click",function(){rezimVymeny?otevriVyber(item):otevriMoznosti(item)});
@@ -499,7 +487,7 @@ function otevriVyber(stary){
       var b=el("button");
       b.type="button";
       b.appendChild(ikona(kat[i]));
-      if(!jeAuto(kat[i]))b.appendChild(el("span","",kat[i][1]));
+      b.appendChild(el("span","",kat[i][1]));
       b.addEventListener("click",function(){vymenit(stary,i)});
       g.appendChild(b);
     });
@@ -583,7 +571,7 @@ function dlazdice(pozice){
     var item=S.poradi[p];var v=K()[item];
     var f=getFoto(S.kod,item);
     var d=el("div",f?"":"bez");
-    if(f){d.style.backgroundImage="url("+f+")";var sp=el("span");if(!jeAuto(v))sp.appendChild(ikona(v,""));sp.appendChild(document.createTextNode(" "+v[1]));d.appendChild(sp)}
+    if(f){d.style.backgroundImage="url("+f+")";var sp=el("span");sp.appendChild(ikona(v,""));sp.appendChild(document.createTextNode(" "+v[1]));d.appendChild(sp)}
     else{d.appendChild(ikona(v,"ik"))}
     t.appendChild(d);
   });
